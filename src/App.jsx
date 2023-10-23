@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; 
 import axios from 'axios';
 import WeatherList from './WeatherList';
 import SummaryStats from './SummaryStats';
 import SearchBar from './SearchBar';
 import FilterOptions from './FilterOptions';
+import WeatherDetail from './WeatherDetail';
+import TemperatureChart from './TemperatureChart'; 
+
 
 function App() {
   const [weatherData, setWeatherData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [selectedFilters, setSelectedFilters] = useState([]);
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,23 +41,31 @@ function App() {
   };
 
   return (
-    <div className="App" style={appStyle}>
-      <h1 style={{ textAlign: 'center', color: 'blue', margin: '20px' }}>Weather Data Dashboard</h1>
-      <SearchBar
-        searchInput={searchInput}
-        setSearchInput={setSearchInput}
-        weatherData={weatherData}
-        setFilteredData={setFilteredData}
-      />
-      <FilterOptions
-        selectedFilters={selectedFilters}
-        setSelectedFilters={setSelectedFilters}
-        weatherData={weatherData}
-        setFilteredData={setFilteredData}
-      />
-      <SummaryStats weatherData={filteredData} />
-      <WeatherList weatherData={filteredData} />
-    </div>
+    <BrowserRouter>
+      <div className="App" style={appStyle}>
+        <h1 style={{ textAlign: 'center', color: 'blue', margin: '20px' }}>Weather Data Dashboard</h1>
+        <SearchBar
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
+          weatherData={weatherData}
+          setFilteredData={setFilteredData}
+        />
+        <FilterOptions
+          selectedFilters={selectedFilters}
+          setSelectedFilters={setSelectedFilters}
+          weatherData={weatherData}
+          setFilteredData={setFilteredData}
+        />
+        <SummaryStats weatherData={filteredData} />
+
+        <TemperatureChart weatherData={filteredData} />
+
+        <Routes>
+          <Route path="/" element={<WeatherList weatherData={filteredData} />} />
+          <Route path="/detail/:cityName" element={<WeatherDetail weatherData={filteredData} />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   );
 }
 

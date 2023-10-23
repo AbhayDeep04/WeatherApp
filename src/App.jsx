@@ -57,7 +57,7 @@ function App() {
           setFilteredData={setFilteredData}
         />
         <SummaryStats weatherData={filteredData} />
-
+        <p>Notice how as there is a Sine wave pattern? this is due to the data coming from different places on earth in different latitudes</p>
         <TemperatureChart weatherData={filteredData} />
 
         <Routes>
